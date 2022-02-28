@@ -33,30 +33,29 @@ public class PlayerController : MonoBehaviour
     private Vector3 moveDirection;
 
     [Header ("Player Movement")]
-     [Tooltip ("Walking speed. 5.0f feels good for shooter-like movement.")]
-     public float walkSpeed = 5.0f;
-     [Tooltip ("Sprinting speed. Usually 1.5x faster than walking speed for smooth movement change.")]
-     public float sprintSpeed = 7.5f;
-     [Tooltip ("Jump height. 10.0f feels good for arcade-like jump.")]
-     private float currentSpeed; // For determining our speed in code
-     [Tooltip ("Smooths player movement. Lower values = sharper stops. 0.1f feels cinematic.")]
+    [Tooltip ("Walking speed. 5.0f feels good for shooter-like movement.")]
+    public float walkSpeed = 5.0f;
+    [Tooltip ("Sprinting speed. Usually 1.5x faster than walking speed for smooth movement change.")]
+    public float sprintSpeed = 7.5f;
+    [Tooltip ("Jump height. 10.0f feels good for arcade-like jump.")]
+    private float currentSpeed; // For determining our speed in code
+    [Tooltip ("Smooths player movement. Lower values = sharper stops. 0.1f feels cinematic.")]
     [Range (0.0f, 0.4f)]
-     public float movementSmoothTime = 0.1f;
-     [Tooltip ("Jump height. 7.5f feels good for arcade-like jumping (10.0f gravity). 10.0 for realistic jumping (20.0f gravity)")]
-     public float jumpForce = 10.0f;
-     [Tooltip ("Amount of gravity. 10.0f feels good for arcade-like gravity. 20.0f for realistic gravity.")]
-     public float gravityForce = 20.0f;
+    public float movementSmoothTime = 0.1f;
+    [Tooltip ("Jump height. 7.5f feels good for arcade-like jumping (10.0f gravity). 10.0 for realistic jumping (20.0f gravity)")]
+    public float jumpForce = 10.0f;
+    [Tooltip ("Amount of gravity. 10.0f feels good for arcade-like gravity. 20.0f for realistic gravity.")]
+    public float gravityForce = 20.0f;
     private float fallingVelocity = 0.0f; // Keep track of falling speed
     private float distanceToGround = 0.0f; // Variable used in raycast to check if grounded
     private float lastGroundedTime = 0.0f; // Keep track of when last grounded
     private bool jumping = false; // Keep track of player jumping
     private Vector3 velocity;
     private Vector3 currentVelocity;
-    public bool sphericalMovement = false;
+    [Space(10)] public bool sphericalMovement = false;
 
     //Spherical Variables
-    [Header ("Spherical Movement")]
-    public GameObject planetGameObject;
+    [HideInInspector] public GameObject planetGameObject;
     private Quaternion panRotation;
     private Quaternion playerToPlanetRotation;
     private GameObject playerChild;
