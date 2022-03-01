@@ -99,12 +99,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CameraMovement();
+        UpdateCameraMovement();
         DefaultMovement();
-        if (sphericalMovement) SphericalRotation();
+        
+        if (sphericalMovement) UpdateSphericalRotation();
     }
 
-    private void CameraMovement()
+    private void FixedUpdate()
+    {
+        FixedCameraMovement();
+
+        // Apply movement to rigidbody based on calculations
+		Vector3 localMove = transform.TransformDirection (velocity); // Final calculation
+		playerRigidbody.MovePosition (playerRigidbody.position + localMove * Time.deltaTime); // Movement call
+    }
+
+    private void UpdateCameraMovement()
     {
         // Get mouse movement
         float mouseX = Input.GetAxisRaw ("Mouse X");
@@ -142,7 +152,10 @@ public class PlayerController : MonoBehaviour
 
         // Get cameraPanSmooth float to work with rigidbody rotation by making it a Quaternion
         panRotation = Quaternion.Euler(0.0f, 1.0f * cameraPanSmooth, 0.0f);
+    }
 
+    private void FixedCameraMovement() 
+    {
         // Horizontal camera movement. Uses the rigidbody to rotate.
         // playerRigidbody.rotation = panRotation;
         playerChild.transform.localRotation = panRotation;
@@ -216,14 +229,7 @@ public class PlayerController : MonoBehaviour
         return Physics.Raycast(transform.position, -transform.up, distanceToGround + 0.1f);
     }
 
-    private void FixedUpdate()
-    {
-        // Apply movement to rigidbody based on calculations
-		Vector3 localMove = transform.TransformDirection (velocity) * Time.fixedDeltaTime; // Final calculation
-		playerRigidbody.MovePosition (playerRigidbody.position + localMove); // Movement call
-    }
-
-    private void SphericalRotation()
+    private void UpdateSphericalRotation()
     {
         // Get player's current "up" && get the centre of the planetGameObject
         Vector3 localUp = playerRigidbody.transform.up;
