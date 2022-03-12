@@ -16,8 +16,6 @@ public class InnerSphericalMask : MonoBehaviour
     void Update()
     {
         Vector4 playerPos = new Vector4(player.transform.position.x, player.transform.position.y, player.transform.position.z, 0);
-        //Debug.Log("PlayerPos: " + playerPos);
-        //GetComponent<Renderer>().material.SetVector("_PlayerPos", playerPos);
         Shader.SetGlobalVector("_PlayerPos", playerPos);
     }
 }

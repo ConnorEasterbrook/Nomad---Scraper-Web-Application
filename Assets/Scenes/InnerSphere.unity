@@ -422,7 +422,6 @@ GameObject:
   - component: {fileID: 43075116}
   - component: {fileID: 43075115}
   - component: {fileID: 43075114}
-  - component: {fileID: 43075117}
   m_Layer: 0
   m_Name: Cylinder (43)
   m_TagString: Untagged
@@ -507,19 +506,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43075112}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &43075117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 43075112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a29404a9e47e2504fafee1ff797d6fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8312102194245473058}
 --- !u!1 &44791683
 GameObject:
   m_ObjectHideFlags: 0
@@ -11441,6 +11427,7 @@ GameObject:
   - component: {fileID: 8312102194245473065}
   - component: {fileID: 8312102194245473071}
   - component: {fileID: 8312102194245473070}
+  - component: {fileID: 8312102194245473059}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -11448,6 +11435,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8312102194245473059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312102194245473058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a29404a9e47e2504fafee1ff797d6fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8312102194245473058}
 --- !u!54 &8312102194245473065
 Rigidbody:
   m_ObjectHideFlags: 0
