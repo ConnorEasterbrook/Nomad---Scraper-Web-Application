@@ -9,9 +9,16 @@ app = Flask(__name__)
 # Make the WSGI interface available at the top level so wfastcgi can get it.
 wsgi_app = app.wsgi_app
 
+from scrape import get_zoopla_data
 
 @app.route('/')
 def hello():
+    url = "https://www.zoopla.co.uk/to-rent/property/wales/?price_frequency=per_month&q=Wales&results_sort=newest_listings&search_source=to-rent"
+    table_data = get_zoopla_data(url)
+
+    for row in table_data:
+        print(row)
+
     """Renders a sample page."""
     return "Hello World!"
 
