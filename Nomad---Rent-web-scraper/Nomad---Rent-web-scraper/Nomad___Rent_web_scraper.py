@@ -7,25 +7,16 @@ from bs4 import BeautifulSoup
 class ZooplaScraper:
 
     def run(self):
-       url = 'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords='
+       #url = 'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=0&minBedrooms=0&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords='
+       url = 'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=1&minBedrooms=1&index=24&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords='
+
        response = self.fetch(url)
-
-       html = ''
-       with open('rightmove.html', 'r', encoding='utf-8') as html_file:
-            for line in html_file:
-                html += html_file.read()
-
-       self.parse(html)
+       self.parse(response.text)
 
     def fetch(self, url):
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            'Accept-Language': 'en-US,en;q=0.9',
-        }
-
-        print('HTTP GET request to URL: %s' % url, end='')
-        response = requests.get(url, headers = headers)
-        print(' | Status code: %s' % response.status_code)
+        print("Attempting to fetch URL: " + url + "\n")
+        response = requests.get(url, headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+        print("Status code: " + str(response.status_code) + "\n")
 
         return response
 
@@ -41,23 +32,22 @@ class ZooplaScraper:
         prices = [price.text for price in content.select(".propertyCard-priceValue")]
 
         # Get the integer value of the price for each property so we can calculate with it
-        intPrices = []
+        # There are two ways to go about showcasing average for properties. We get all properties in bulk and assess that way or do four searches for each bedroom count and average independently
+        int_prices = []
         for price in prices:
             try:
                 tempPrice = re.search(r'\d+', price).group()
-                intPrices.append(int(tempPrice))
+                int_prices.append(int(tempPrice))
             except ValueError:
                 print("Unable to convert price to integer.")
 
         listings = []
-
         for title, price in zip(titles, prices):
             listings.append(f'{title}- {price}')
 
 
-        output = ",".join(listings)
+        output = ", \n".join(listings)
         print(output)
-
     
 if __name__ == '__main__':
     scraper = ZooplaScraper()
