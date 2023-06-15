@@ -3,15 +3,25 @@ import random
 import re
 import requests
 from bs4 import BeautifulSoup
+from string_specifier import StringSpecifier
 
 class Scraper:
 
     def run(self):
        #url = 'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=0&minBedrooms=0&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords='
-       url = 'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=1&minBedrooms=1&index=24&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords='
+       #url = 'https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=1&minBedrooms=1&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords='
+       
+       specifier = StringSpecifier()
+       initial_url = "https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=1&minBedrooms=1&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords="
+       url_array = StringSpecifier.startParsing(specifier, initial_url)
+       #print(url_array)
 
-       response = self.fetch(url)
-       self.parse(response.text)
+       for i in range(0, 4):
+           response = self.fetch(url_array[i])
+           self.parse(response.text)
+
+       #response = self.fetch(url)
+       #self.parse(response.text)
 
     def fetch(self, url):
         print("Attempting to fetch URL: " + url + "\n")
