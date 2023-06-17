@@ -1,23 +1,44 @@
 from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
+import json
 
 class StringSpecifier:
 
     def startParsing(self, url):
         parsed_url = urlparse(url)
         
+        # Get array of region-codes.json
+        region_codes = self.getRegionCodes()
         search_array = []
 
-        for i in range(1, 6):
-            new_url = self.getPropertySearches(parsed_url, i)
-            search_array.append(new_url)
+        for i in range(0, region_codes.__len__()):
+            for j in range(1, 6):
+                new_url = self.getPropertySearches(parsed_url, region_codes, i, j)
+                search_array.append(new_url)
             
         return search_array
+
+    # Get region codes as follows:
+        # Cardiff postcode CF
+        # Newport postcode NP
+        # Swansea (county of)
+        # Carmarthenshire county
+        # Pembrokeshire county
+        # Ceridigion county
+        # Powys county
+        # Llandudno postcode LL
+        # Chester postcode CH
+    def getRegionCodes(self):
+        with open('region-codes.json') as json_file:
+            data = json.load(json_file)
+            return data['region_codes']
             
-    def getPropertySearches(self, parsed_url, iteration):
-        location_search = self.specifyLocation(parsed_url, "REGION%5E91990")
+    def getPropertySearches(self, parsed_url, region_codes, region_iteration, bedroom_iteration):
+        region = region_codes[region_iteration]
+
+        location_search = self.specifyLocation(parsed_url, region)
         parsed_location_search = urlparse(location_search)
 
-        bedroom_search = self.specifyBedrooms(parsed_location_search, iteration)
+        bedroom_search = self.specifyBedrooms(parsed_location_search, bedroom_iteration)
         return bedroom_search
 
     def specifyLocation(self, parsed_url, location = ""):

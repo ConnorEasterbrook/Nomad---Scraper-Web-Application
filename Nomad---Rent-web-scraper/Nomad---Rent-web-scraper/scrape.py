@@ -15,18 +15,28 @@ class Scraper:
        initial_url = "https://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=REGION%5E91990&maxBedrooms=1&minBedrooms=1&propertyTypes=bungalow%2Cdetached%2Cflat%2Csemi-detached%2Cterraced&mustHave=&dontShow=houseShare%2Cretirement%2Cstudent&furnishTypes=&keywords="
        url_array = StringSpecifier.startParsing(specifier, initial_url)
        #print(url_array)
+       
+       print("Attempting to connect to initial URL: " + initial_url + "\n")
+       initial_response = requests.get(initial_url, headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
+       print("Status code: " + str(initial_response.status_code) + "\n")
 
-       for i in range(0, 4):
-           response = self.fetch(url_array[i])
+       count = 0
+       for i in range(0, url_array.__len__()):
+           if (count > 5):
+               count = 0
+
+           response = self.fetch(url_array[i], count)
            self.parse(response.text)
+           count += 1
 
        #response = self.fetch(url)
        #self.parse(response.text)
 
-    def fetch(self, url):
-        print("Attempting to fetch URL: " + url + "\n")
+    def fetch(self, url, count):
+        if (count == 0):
+            print ("\n Getting location!")
+
         response = requests.get(url, headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'})
-        print("Status code: " + str(response.status_code) + "\n")
 
         return response
 
